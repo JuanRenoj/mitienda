@@ -168,14 +168,13 @@ initTablaDetalle();
         tblColocacion.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if (event.isPrimaryButtonDown()) {
-                    System.out.println(event);
-                }
+                if (event.getClickCount()==1  && event.getButton()==MouseButton.PRIMARY) {
                     Colocacion colocacion=tblColocacion.getSelectionModel().getSelectedItem();
-                    //int codigo = listColocacion.getSelectionModel().getSelectedItem().getIdColocacion();
-                    Producto producto = new Producto(0, "", "", "", 0, 0, 0, 0, 0, 0, 0, colocacion.getIdColocacion(), 0, "", 0, 0, "", "");
-                  initListaDetalle(producto);
-
+                    if (colocacion !=null) {
+                        Producto producto = new Producto(0, "", "", "", 0, 0, 0, 0, 0, 0, 0, colocacion.getIdColocacion(), 0, "", 0, 0, "", "");
+                        initListaDetalle(producto);
+                    }
+            }
             }
         });
 
@@ -294,12 +293,10 @@ initTablaDetalle();
     public  void EliminarColocacion(Colocacion colocacion){
         AlertDialog alertDialog=new AlertDialog();
         if (alertDialog.alertConfirm("Colocación", "esta seguro de elliminar la colocación")){
-            Colocacion pro=new Colocacion(Integer.parseInt(rowColocacion.codigo.getText()),"x","x");
             DataColocacion datos=new DataColocacion();
-            datos.crudColocacion(pro,"delete");
+            datos.crudColocacion(colocacion,"delete");
             llenarListaColocacion();
             tblColocacion.refresh();
-
         }
     }
 }
